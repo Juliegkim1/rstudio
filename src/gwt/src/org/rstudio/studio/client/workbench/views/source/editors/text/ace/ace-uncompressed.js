@@ -9702,7 +9702,9 @@ define("ace/mode/diff_highlight_rules",["require","exports","module","ace/lib/oo
 var oop = require("../lib/oop");
 var TextHighlightRules = require("./text_highlight_rules").TextHighlightRules;
 
-var DiffHighlightRules = function() {
+var DiffHighlightRules = function() {
+
+
 
     this.$rules = {
         "start" : [{
@@ -24519,29 +24521,36 @@ exports.Mode = Mode;
 
 define("ace/mode/sql_highlight_rules",["require","exports","module","ace/lib/oop","ace/mode/text_highlight_rules"], function(require, exports, module) {
 
+  var oop = require("ace/lib/oop");
+  var lang = require("ace/lib/lang");
+  var TextHighlightRules = require("ace/mode/text_highlight_rules").TextHighlightRules;
 
-var oop = require("../lib/oop");
-var TextHighlightRules = require("./text_highlight_rules").TextHighlightRules;
-
-var SqlHighlightRules = function() {
-
+  var SqlHighlightRules = function() {
     var keywords = (
         "select|insert|update|delete|from|where|and|or|group|by|order|limit|offset|having|as|case|" +
-        "when|else|end|type|left|right|join|on|outer|desc|asc|union"
+        "when|else|end|type|left|right|join|on|outer|desc|asc|union|create|table|primary|key|if|" +
+        "foreign|not|references|default|null|inner|cross|natural|database|drop|grant"
     );
 
     var builtinConstants = (
-        "true|false|null"
+        "true|false"
     );
 
     var builtinFunctions = (
-        "count|min|max|avg|sum|rank|now|coalesce"
+        "avg|count|first|last|max|min|sum|ucase|lcase|mid|len|round|rank|now|format|" + 
+        "coalesce|ifnull|isnull|nvl"
+    );
+
+    var dataTypes = (
+        "int|numeric|decimal|date|varchar|char|bigint|float|double|bit|binary|text|set|timestamp|" +
+        "money|real|number|integer"
     );
 
     var keywordMapper = this.createKeywordMapper({
         "support.function": builtinFunctions,
         "keyword": keywords,
-        "constant.language": builtinConstants
+        "constant.language": builtinConstants,
+        "storage.type": dataTypes
     }, "identifier", true);
 
     this.$rules = {
@@ -24579,11 +24588,11 @@ var SqlHighlightRules = function() {
         } ]
     };
     this.normalizeRules();
-};
+  };
 
-oop.inherits(SqlHighlightRules, TextHighlightRules);
+  oop.inherits(SqlHighlightRules, TextHighlightRules);
 
-exports.SqlHighlightRules = SqlHighlightRules;
+  exports.SqlHighlightRules = SqlHighlightRules;
 });
 
 define("ace/mode/sql",["require","exports","module","ace/lib/oop","ace/mode/text","ace/mode/sql_highlight_rules","ace/range"], function(require, exports, module) {
